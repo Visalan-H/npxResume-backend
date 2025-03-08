@@ -22,8 +22,8 @@ app.get('/:name', async (req, res) => {
         if (resume) res.status(200).json(resume)
         else res.status(404).json({ "msg": "not found!" })
     } catch (error) {
-        console.log(error)
-        res.send(error)
+        console.log("error")
+        // res.send(error)
     }
 })
 app.get('/user/:name', async (req, res) => {
@@ -33,8 +33,8 @@ app.get('/user/:name', async (req, res) => {
         if (resume) res.status(200).json({"avaiable":"no"})
         else res.json({ "available": "yes" })
     } catch (error) {
-        console.log(error)
-        res.send(error)
+        console.log("error")
+        // res.send(error)
     }
 })
 app.post('/add', upload.single('pdfFile'),extractPdfText,aiMiddleware, async (req, res) => {
@@ -49,13 +49,14 @@ app.post('/add', upload.single('pdfFile'),extractPdfText,aiMiddleware, async (re
             username:username,
             resumePdfText:req.ai
         })
-        console.log("HELO",req.ai)
-        console.log(newResume)
+        // console.log("HELO",req.ai)
+        // console.log(newResume)
         await newResume.save()
         res.json(newResume)
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
+        console.log("cant add")
         res.status(500).json({ error: 'Failed to extract text' });
     }
 })
@@ -66,7 +67,7 @@ app.post('/add', upload.single('pdfFile'),extractPdfText,aiMiddleware, async (re
 mongoose.connect(MDB_URI)
     .then(() => {
         app.listen(3000, () => {
-            console.log("listening on http://localhost:3000")
+            console.log("listening")
         })
     })
-    .catch(e => console.log(e))
+    .catch(e => console.log("error mdb"))
